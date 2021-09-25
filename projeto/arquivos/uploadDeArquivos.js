@@ -17,6 +17,14 @@ const fs = require('fs')
 //     }
 // })
 
-fs.createReadStream('./assets/nery.jpg')
-    .pipe(fs.createWriteStream('./assets/nery-stream.jpg'))
-    .on('finish', () => console.log('Foto salva com sucesso'))
+// fs.createReadStream('./assets/nery.jpg')
+//     .pipe(fs.createWriteStream('./assets/nery-stream.jpg'))
+//     .on('finish', () => console.log('Foto salva com sucesso'))
+
+module.exports = (caminho, nomeDoArquivo, callbackImagemCriada) => {
+    const novoCaminho = `./assets/imagens/${nomeDoArquivo}`
+
+    fs.createReadStream(caminho)
+        .pipe(fs.createWriteStream(novoCaminho))
+        .on('finish', () => callbackImagemCriada(novoCaminho))
+}
