@@ -5,7 +5,7 @@ const NaoEncontrado = require('./erros/NaoEncontrado')
 const CampoInvalido = require('./erros/CampoInvalido')
 const DadosNaoFornecidos = require('./erros/DadosNaoFornecidos')
 const ValorNaoSuportado = require('./erros/ValorNaoSuportado')
-const formatosAceitos = require('./Serealizador').formatosAceitos
+const formatosAceitos = require('./Serializador').formatosAceitos
 
 const app = express()
 
@@ -14,7 +14,7 @@ app.use(express.json())
 app.use((req, res, proximo) => {
     let formatoRequisitado = req.header('Accept')
 
-    if (formatoRequisitado == '*/*') {
+    if (formatoRequisitado === '*/*') {
         formatoRequisitado = 'application/json'
     }
 
