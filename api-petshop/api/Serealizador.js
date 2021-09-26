@@ -13,3 +13,8 @@ class Serealizador {
         throw new ValorNaoSuportado(this.contentType)
     }
 }
+
+module.exports = {
+    Serealizador: Serealizador,
+    formatosAceitos: ['application/json']
+}

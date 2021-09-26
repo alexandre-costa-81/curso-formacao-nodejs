@@ -5,10 +5,28 @@ const NaoEncontrado = require('./erros/NaoEncontrado')
 const CampoInvalido = require('./erros/CampoInvalido')
 const DadosNaoFornecidos = require('./erros/DadosNaoFornecidos')
 const ValorNaoSuportado = require('./erros/ValorNaoSuportado')
+const formatosAceitos = require('./Serealizador').formatosAceitos
 
 const app = express()
 
 app.use(express.json())
+
+app.use((req, res, proximo) => {
+    let formatoRequisitado = req.header('Accept')
+
+    if (formatoRequisitado == '*/*') {
+        formatoRequisitado = 'application/json'
+    }
+
+    if (formatosAceitos.indexOf(formatoRequisitado) === -1) {
+        res.status(406)
+        res.end()
+    } else {
+        res.setHeader('Content-Type', formatoRequisitado)
+        proximo()
+    }
+})
+
 app.use('/api/fornecedores', roteador)
 
 app.use((erro, req, res, proximo) => {
