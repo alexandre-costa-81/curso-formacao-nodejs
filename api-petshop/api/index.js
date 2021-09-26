@@ -1,13 +1,14 @@
 const express = require('express')
 const config = require('config')
+const roteador = require('./rotas/fornecedores')
 const NaoEncontrado = require('./erros/NaoEncontrado')
 const CampoInvalido = require('./erros/CampoInvalido')
 const DadosNaoFornecidos = require('./erros/DadosNaoFornecidos')
+const ValorNaoSuportado = require('./erros/ValorNaoSuportado')
 
 const app = express()
-app.use(express.json())
 
-const roteador = require('./rotas/fornecedores')
+app.use(express.json())
 app.use('/api/fornecedores', roteador)
 
 app.use((erro, req, res, proximo) => {
@@ -19,6 +20,10 @@ app.use((erro, req, res, proximo) => {
 
     if (erro instanceof CampoInvalido || erro instanceof DadosNaoFornecidos) {
         status = 400
+    }
+
+    if (erro instanceof ValorNaoSuportado) {
+        status = 406
     }
 
     res.status(status)
