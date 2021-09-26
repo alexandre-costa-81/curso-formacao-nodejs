@@ -24,7 +24,23 @@ roteador.get('/:id', async (req, res) => {
         res.send(JSON.stringify(fornecedor))
     } catch (erro) {
         res.send(JSON.stringify({
-            mensagem: erro.mensagem
+            mensagem: erro.message
+        }))
+    }
+})
+
+roteador.put('/:id', async (req, res) => {
+    try {
+        const id = req.params.id
+        const dadosRecebidos = req.body
+        const dados = Object.assign({}, dadosRecebidos, { id: id })
+        const fornecedor = new Fornecedor(dados)
+        await fornecedor.atualizar()
+        res.end()
+    } catch (erro) {
+
+        res.send(JSON.stringify({
+            mensagem: erro.message
         }))
     }
 })
