@@ -18,6 +18,7 @@ roteador.post('/', async (req, res) => {
         res.status(201)
         res.send(JSON.stringify(fornecedor))
     } catch (erro) {
+        res.status(400)
         res.send(JSON.stringify({
             mensagem: erro.message
         }))
@@ -32,6 +33,7 @@ roteador.get('/:id', async (req, res) => {
         res.status(200)
         res.send(JSON.stringify(fornecedor))
     } catch (erro) {
+        res.status(404)
         res.send(JSON.stringify({
             mensagem: erro.message
         }))
@@ -48,6 +50,7 @@ roteador.put('/:id', async (req, res) => {
         res.status(204)
         res.end()
     } catch (erro) {
+        res.status(400)
         res.send(JSON.stringify({
             mensagem: erro.message
         }))
@@ -63,6 +66,7 @@ roteador.delete('/:id', async (req, res) => {
         res.status(204)
         res.end()
     } catch (erro) {
+        res.status(404)
         res.send(JSON.stringify({
             mensagem: erro.message
         }))

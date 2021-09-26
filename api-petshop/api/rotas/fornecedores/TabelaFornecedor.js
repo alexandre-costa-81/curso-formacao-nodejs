@@ -15,7 +15,7 @@ module.exports = {
         })
 
         if (!fornecedor) {
-            throw new error('Fornecedor não encontrado')
+            throw new Error('Fornecedor não encontrado')
         }
 
         return fornecedor
