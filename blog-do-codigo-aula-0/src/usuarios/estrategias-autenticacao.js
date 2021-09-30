@@ -18,7 +18,7 @@ async function verificaSenha(senha, senhaHash) {
     }
 }
 
-possport.use(
+passport.use(
     new LocalStrategy({
         usernameField: 'email',
         passwordField: 'senha',
