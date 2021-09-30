@@ -7,8 +7,7 @@ function criaTokenJWT(usuario) {
   const payload = {
     id: usuario.id
   };
-
-  const token = jwt.sign(payload, prcoess.env.CHAVE_JWT)
+  const token = jwt.sign(payload, process.env.CHAVE_JWT, {expiresIn: '1m'})
   return token;
 }
 
