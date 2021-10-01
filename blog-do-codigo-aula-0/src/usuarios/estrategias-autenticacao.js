@@ -6,10 +6,18 @@ const jwt = require('jsonwebtoken');
 
 const Usuario = require('./usuarios-modelo')
 const { InvalidArgumentError } = require('../erros')
+const balcklist = require('../../redis/manipula-balcklist')
 
 function verificaUsuario(usuario) {
     if (!usuario) {
         throw new InvalidArgumentError('Não existe usuário com esse email');
+    }
+}
+
+async function verificaTokenNaBlacklist(token) {
+    const tokenNaBlacklist = await balcklist.contemToken(token);
+    if (tokenNaBlacklist) {
+        throw new jwt.JsonWebTokenError('Token invalido por logout.');
     }
 }
 
@@ -42,9 +50,10 @@ passport.use(
     new BearerStrategy(
         async (token, done) => {
             try {
+                await verificaTokenNaBlacklist(token);
                 const payload = jwt.verify(token, process.env.CHAVE_JWT);
                 const usuario = await Usuario.buscaPorId(payload.id);
-                done(null, usuario)
+                done(null, usuario, { token: token })
             } catch (error) {
                 done(error)
             }
